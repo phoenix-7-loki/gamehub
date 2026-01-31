@@ -1,0 +1,172 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #212529;
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --light-bg: #f8f9fa;
+}
+
+.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --border-color: #333333;
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --light-bg: #2d2d2d;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.form-control, .form-select {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.bg-light {
+  background-color: var(--light-bg) !important;
+}
+
+.text-muted {
+  color: var(--secondary-color) !important;
+}
+
+.album.py-5.bg-light {
+  background-color: var(--light-bg) !important;
+}
+
+.page-link {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.page-item.active .page-link {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.page-link:hover {
+  background-color: var(--border-color);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.badge {
+  transition: background-color 0.3s;
+}
+
+.toast {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.toast-header {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-bottom-color: var(--border-color);
+}
+
+.alert {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.btn-outline-light {
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.btn-outline-light:hover {
+  background-color: var(--border-color);
+  color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+  .navbar .form-control {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .navbar .form-select {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-body {
+    padding: 1rem !important;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.alert {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.card-img-top {
+  object-fit: cover;
+  width: 100%;
+}
+
+.btn {
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.cart-item:hover {
+  background-color: var(--light-bg);
+}
+
+.invalid-feedback {
+  color: #dc3545;
+}
+
+.form-select-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}

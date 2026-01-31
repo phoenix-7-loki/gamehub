@@ -1,0 +1,253 @@
+  /* Reset de base */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1f1b2d, #3a0ca3);
+    margin: 0;
+    padding: 0;
+    color: #eee;
+    min-height: 100vh;
+  }
+
+  .App {
+    padding: 30px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #c29bf2;
+    box-shadow: 0 0 20px rgba(35, 43, 226, 0.7);
+    border-radius: 15px;
+    border: 2px solid #3a0ca3;
+  }
+
+  h2 {
+    color: #8a2be2;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 0 0 8px #720026;
+  }
+
+  h3 {
+    color: #ff4c4c;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #720026;
+    padding-bottom: 5px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  input, select {
+    padding: 12px 15px;
+    width: 280px;
+    border: 2px solid #720026;
+    border-radius: 8px;
+    background: #2f2f50;
+    color: #ddd;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+
+  input:focus, select:focus {
+    border-color: #8a2be2;
+    outline: none;
+    box-shadow: 0 0 8px #8a2be2;
+  }
+
+  button.btn {
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #720026, #e5383b);
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px 0;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background 0.4s, box-shadow 0.3s;
+    box-shadow: 0 0 10px #e5383b;
+  }
+
+  button.btn:hover {
+    background: linear-gradient(45deg, #e5383b, #720026);
+    box-shadow: 0 0 15px #ff3a3a;
+  }
+
+  button.delete {
+    background: #290000cc;
+    box-shadow: none;
+    color: #ff6961;
+    font-weight: 700;
+    transition: background 0.3s, color 0.3s;
+    border: 1.5px solid #ff6961;
+  }
+
+  button.delete:hover {
+    background: #ff6961cc;
+    color: #290000;
+  }
+
+  button.logout {
+    float: right;
+    margin-bottom: 20px;
+    background: #003049;
+    box-shadow: 0 0 10px #0077b6;
+    font-weight: 700;
+    border: none;
+  }
+
+  button.logout:hover {
+    background: #0077b6;
+    box-shadow: 0 0 15px #00b4d8;
+  }
+
+  .error {
+    color: #ff5e5e;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #222244;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #3a0ca3aa;
+  }
+
+  table th,
+  table td {
+    padding: 14px 18px;
+    border: 1px solid #3a0ca3aa;
+    text-align: left;
+    color: #ddd;
+  }
+
+  table th {
+    background: #720026;
+    color: #f0f0f0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .eleve-dashboard {
+    text-align: center;
+  }
+
+  .card {
+    background: #2f2f50;
+    padding: 25px 30px;
+    border-radius: 12px;
+    margin-top: 25px;
+    box-shadow: 0 0 15px #8a2be2cc;
+    border: 2px solid #720026;
+  }
+
+  label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #eee;
+  }
+
+  input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1.5px solid #8a2be2;
+    background: #1a1a2e;
+    color: #ddd;
+    margin-left: 10px;
+    font-weight: 600;
+    transition: border-color 0.3s;
+  }
+
+  input[type="number"]:focus {
+    border-color: #e5383b;
+    outline: none;
+    box-shadow: 0 0 8px #e5383b;
+  }
+
+  /* Boutons absences dans prof */
+  button.btn + button.btn {
+    margin-left: 10px;
+  }
+
+  /* Calendrier */
+  .react-calendar {
+    background: #2f2f50;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #720026cc;
+    margin: 20px auto;
+    max-width: 350px;
+    color: #eee;
+    border: none;
+  }
+
+  .react-calendar__tile--now {
+    background: #e5383b99;
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+  }
+
+  .react-calendar__tile--active {
+    background: #8a2be2;
+    color: white;
+    border-radius: 8px;
+    font-weight: 700;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tab-btn {
+    background: #3a0ca3;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .tab-btn.active {
+    background: #720026;
+    box-shadow: 0 0 8px #e5383b;
+  }
+
+  .search-bar {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background: #2f2f50;
+    border: 2px solid #720026;
+    color: #eee;
+  }
+
+  @media (max-width: 600px) {
+    .App {
+      padding: 15px;
+      margin: 20px;
+    }
+    input, select {
+      width: 100%;
+    }
+    table, .card {
+      font-size: 14px;
+    }
+    .tabs {
+      flex-direction: column;
+    }
+  }
+`}
