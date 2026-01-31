@@ -5,13 +5,13 @@ const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({});
 
-  const handleSearch = (value) => {
-    if (typeof value === 'string') {
-      setSearchTerm(value);
-    } else if (typeof value === 'object') {
-      setFilters(value);
-    }
-  };
+  // const handleSearch = (value) => {
+  //   if (typeof value === 'string') {
+  //     setSearchTerm(value);
+  //   } else if (typeof value === 'object') {
+  //     setFilters(value);
+  //   }
+  // };
 
   return (
     <>
