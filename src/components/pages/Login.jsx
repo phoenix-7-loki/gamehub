@@ -30,12 +30,12 @@ const Login = () => {
 
     try {
       setTimeout(() => {
-        if (credentials.email === 'reda@gamehub.ma' && credentials.password === '0011') {
+        if (credentials.email === 'admin@gamehub.com' && credentials.password === 'admin123') {
           localStorage.setItem('isAuthenticated', 'true');
           localStorage.setItem('userRole', 'admin');
           localStorage.setItem('userEmail', credentials.email);
           navigate('/');
-        } else if (credentials.email === 'client@gamehub.ma' && credentials.password === '2026') {
+        } else if (credentials.email === 'user@gamehub.com' && credentials.password === 'user123') {
           localStorage.setItem('isAuthenticated', 'true');
           localStorage.setItem('userRole', 'user');
           localStorage.setItem('userEmail', credentials.email);
@@ -114,6 +114,14 @@ const Login = () => {
                       'Se connecter'
                     )}
                   </button>
+                </div>
+
+                <div className="text-center mt-4">
+                  <p className="text-muted mb-2">Comptes de test :</p>
+                  <div className="small">
+                    <div>Admin: admin@gamehub.com / admin123</div>
+                    <div>Utilisateur: user@gamehub.com / user123</div>
+                  </div>
                 </div>
 
                 <div className="text-center mt-4 pt-3 border-top">

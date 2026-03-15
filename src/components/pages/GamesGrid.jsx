@@ -41,22 +41,28 @@ const GamesGrid = ({ searchTerm = '', filters = {} }) => {
   }, []);
 
   useEffect(() => {
+    if (games.length === 0) return;
+    
     let result = [...games];
 
-    if (searchTerm && searchTerm.trim() !== '') {
+    // Filtre par recherche texte
+    if (filters.search && filters.search.trim() !== '') {
+      const searchLower = filters.search.toLowerCase().trim();
       result = result.filter(game =>
-        game.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (game.genre && game.genre.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        game.title.toLowerCase().includes(searchLower) ||
+        (game.genre && game.genre.toLowerCase().includes(searchLower)) ||
+        (game.description && game.description.toLowerCase().includes(searchLower))
       );
     }
 
+    // Filtre par genre
     if (filters.genre && filters.genre !== '') {
       result = result.filter(game =>
         game.genre === filters.genre
       );
     }
 
+    // Filtre par prix
     if (filters.price && filters.price !== '') {
       switch(filters.price) {
         case '0-20':
@@ -68,9 +74,12 @@ const GamesGrid = ({ searchTerm = '', filters = {} }) => {
         case '50+':
           result = result.filter(game => game.price > 50);
           break;
+        default:
+          break;
       }
     }
 
+    // Tri
     if (filters.sort && filters.sort !== '') {
       switch(filters.sort) {
         case 'price_asc':
@@ -85,12 +94,14 @@ const GamesGrid = ({ searchTerm = '', filters = {} }) => {
         case 'name_desc':
           result.sort((a, b) => b.title.localeCompare(a.title));
           break;
+        default:
+          break;
       }
     }
 
     setFilteredGames(result);
     setCurrentPage(1);
-  }, [searchTerm, filters, games]);
+  }, [filters, games]);
 
   const handleAddToCart = (game) => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -106,9 +117,11 @@ const GamesGrid = ({ searchTerm = '', filters = {} }) => {
 
     const event = new Event('storage');
     window.dispatchEvent(event);
-//TODO: deplacer
+
+    // Toast notification
     const toast = document.createElement('div');
     toast.className = 'position-fixed bottom-0 end-0 p-3';
+    toast.style.zIndex = '9999';
     toast.innerHTML = `
       <div class="toast show" role="alert">
         <div class="toast-header">
@@ -161,8 +174,8 @@ const GamesGrid = ({ searchTerm = '', filters = {} }) => {
       <div className="container">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            {searchTerm && (
-              <h5 className="mb-0">Résultats pour "{searchTerm}"</h5>
+            {filters.search && (
+              <h5 className="mb-0">Résultats pour "{filters.search}"</h5>
             )}
           </div>
           <div className="text-muted">

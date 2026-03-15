@@ -10,6 +10,8 @@ const GameCard = ({ game, onAddToCart }) => {
     }
   };
 
+  const isAdmin = localStorage.getItem('userRole') === 'admin';
+
   return (
     <div className="col">
       <div className="card shadow-sm h-100">
@@ -17,7 +19,7 @@ const GameCard = ({ game, onAddToCart }) => {
           src={game.img || "https://via.placeholder.com/300x225"}
           alt={game.title}
           className="card-img-top"
-          style={{height: '225px', objectFit: 'cover'}}
+          style={{height: '225px', objectFit: 'cover', objectPosition: 'center'}}
         />
 
         <div className="card-body d-flex flex-column">

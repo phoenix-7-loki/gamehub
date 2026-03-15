@@ -8,6 +8,7 @@ const Navbar = ({ onSearch }) => {
   const [genreFilter, setGenreFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [sortFilter, setSortFilter] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +17,10 @@ const Navbar = ({ onSearch }) => {
       setDarkMode(true);
       document.body.classList.add('dark-mode');
     }
+
+    // Vérifier si l'utilisateur est admin
+    const userRole = localStorage.getItem('userRole');
+    setIsAdmin(userRole === 'admin');
 
     const updateCartCount = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -44,25 +49,29 @@ const Navbar = ({ onSearch }) => {
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    if (onSearch) onSearch(value);
+    if (onSearch) onSearch({ search: value, genre: genreFilter, price: priceFilter, sort: sortFilter });
   };
 
   const applyFilters = () => {
-    const filters = {
-      search: searchTerm,
-      genre: genreFilter,
-      price: priceFilter,
-      sort: sortFilter
-    };
-    if (onSearch) onSearch(filters);
+    if (onSearch) {
+      onSearch({ search: searchTerm, genre: genreFilter, price: priceFilter, sort: sortFilter });
+    }
   };
 
   useEffect(() => {
     applyFilters();
   }, [genreFilter, priceFilter, sortFilter]);
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    setIsAdmin(false);
+    navigate('/');
+  };
+
   return (
-    <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
       <div className="container">
         <Link to="/" className="navbar-brand d-flex align-items-center">
           <strong>GameHub</strong>
@@ -146,13 +155,20 @@ const Navbar = ({ onSearch }) => {
                 )}
               </Link>
 
-              <Link to="/game/new" className="btn btn-primary btn-sm">
-                + Ajouter
-              </Link>
-
-              <Link to="/login" className="btn btn-outline-light btn-sm">
-                🔐 Login
-              </Link>
+              {isAdmin ? (
+                <>
+                  <Link to="/game/new" className="btn btn-primary btn-sm">
+                    + Ajouter
+                  </Link>
+                  <button onClick={handleLogout} className="btn btn-outline-danger btn-sm">
+                    Déconnexion
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" className="btn btn-outline-light btn-sm">
+                  🔐 Log
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -2,6 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="text-muted py-5 bg-light mt-auto">
       <div className="container">
@@ -32,9 +39,9 @@ const Footer = () => {
         <hr className="my-4" />
         <div className="d-flex justify-content-between align-items-center">
           <p className="mb-0">GameHub &copy; 2026</p>
-          <Link to="#" className="text-muted">
+          <button onClick={scrollToTop} className="btn btn-link text-muted p-0">
             ↑ Haut de page
-          </Link>
+          </button>
         </div>
       </div>
     </footer>

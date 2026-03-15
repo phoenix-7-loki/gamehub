@@ -8,6 +8,8 @@ const GameDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const isAdmin = localStorage.getItem('userRole') === 'admin';
+
   useEffect(() => {
     fetch(`http://localhost:3001/games/${id}`)
       .then(res => {
@@ -98,7 +100,7 @@ const GameDetail = () => {
               src={game.img || 'https://via.placeholder.com/600x400'}
               alt={game.title}
               className="card-img-top rounded"
-              style={{ height: '400px', objectFit: 'cover' }}
+              style={{ height: '400px', objectFit: 'cover', objectPosition: 'center' }}
               onError={(e) => {
                 e.target.src = 'https://via.placeholder.com/600x400?text=Image+non+disponible';
               }}
@@ -160,16 +162,20 @@ const GameDetail = () => {
                   🛒 Ajouter au panier
                 </button>
 
-                <Link to={`/game/edit/${id}`} className="btn btn-primary px-4">
-                  ✏️ Modifier
-                </Link>
+                {isAdmin && (
+                  <>
+                    <Link to={`/game/edit/${id}`} className="btn btn-primary px-4">
+                      ✏️ Modifier
+                    </Link>
 
-                <button
-                  onClick={handleDelete}
-                  className="btn btn-danger px-4"
-                >
-                  🗑️ Supprimer
-                </button>
+                    <button
+                      onClick={handleDelete}
+                      className="btn btn-danger px-4"
+                    >
+                      🗑️ Supprimer
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

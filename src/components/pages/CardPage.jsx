@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const CardPage = () => {
+const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartItems(savedCart);
-    calculateTotal(savedCart);
-    setLoading(false);
+    loadCart();
 
     const handleStorageChange = () => {
-      const updatedCart = JSON.parse(localStorage.getItem('cart')) || [];
-      setCartItems(updatedCart);
-      calculateTotal(updatedCart);
+      loadCart();
     };
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
+
+  const loadCart = () => {
+    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartItems(savedCart);
+    calculateTotal(savedCart);
+    setLoading(false);
+  };
 
   const calculateTotal = (items) => {
     const sum = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -37,6 +39,9 @@ const CardPage = () => {
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     calculateTotal(updatedCart);
+    
+    // Déclencher l'événement storage pour mettre à jour le compteur dans Navbar
+    window.dispatchEvent(new Event('storage'));
   };
 
   const removeItem = (id) => {
@@ -44,6 +49,7 @@ const CardPage = () => {
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     calculateTotal(updatedCart);
+    window.dispatchEvent(new Event('storage'));
   };
 
   const clearCart = () => {
@@ -51,6 +57,7 @@ const CardPage = () => {
       setCartItems([]);
       localStorage.removeItem('cart');
       setTotal(0);
+      window.dispatchEvent(new Event('storage'));
     }
   };
 
@@ -60,10 +67,11 @@ const CardPage = () => {
       return;
     }
 
-    alert(`Paiement de $${total.toFixed(2)} effectué avec succès !`);
+    alert(`Paiement de $${(total * 1.15).toFixed(2)} effectué avec succès !`);
     setCartItems([]);
     localStorage.removeItem('cart');
     setTotal(0);
+    window.dispatchEvent(new Event('storage'));
   };
 
   if (loading) {
@@ -177,7 +185,7 @@ const CardPage = () => {
                 <span className="text-success">Gratuit</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span>Taxes</span>
+                <span>Taxes (15%)</span>
                 <span>${(total * 0.15).toFixed(2)}</span>
               </div>
               <div className="d-flex justify-content-between mb-3 border-top pt-3">
@@ -203,4 +211,4 @@ const CardPage = () => {
   );
 };
 
-export default CardPage;
+export default CartPage;
