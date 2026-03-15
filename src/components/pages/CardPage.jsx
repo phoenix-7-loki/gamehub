@@ -40,7 +40,6 @@ const CartPage = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     calculateTotal(updatedCart);
     
-    // Déclencher l'événement storage pour mettre à jour le compteur dans Navbar
     window.dispatchEvent(new Event('storage'));
   };
 

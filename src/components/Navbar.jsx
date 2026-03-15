@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ onSearch }) => {
+const Navbar = ({ onFilterChange }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [darkMode, setDarkMode] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [genreFilter, setGenreFilter] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [sortFilter, setSortFilter] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const auth = localStorage.getItem('isAuthenticated') === 'true';
+      const role = localStorage.getItem('userRole') || '';
+      setIsAuthenticated(auth);
+      setUserRole(role);
+    };
+    
+    checkAuth();
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -17,11 +31,9 @@ const Navbar = ({ onSearch }) => {
       setDarkMode(true);
       document.body.classList.add('dark-mode');
     }
+  }, []);
 
-    // Vérifier si l'utilisateur est admin
-    const userRole = localStorage.getItem('userRole');
-    setIsAdmin(userRole === 'admin');
-
+  useEffect(() => {
     const updateCartCount = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const count = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -36,7 +48,6 @@ const Navbar = ({ onSearch }) => {
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-
     if (newDarkMode) {
       document.body.classList.add('dark-mode');
       localStorage.setItem('theme', 'dark');
@@ -46,27 +57,26 @@ const Navbar = ({ onSearch }) => {
     }
   };
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    if (onSearch) onSearch({ search: value, genre: genreFilter, price: priceFilter, sort: sortFilter });
-  };
-
-  const applyFilters = () => {
-    if (onSearch) {
-      onSearch({ search: searchTerm, genre: genreFilter, price: priceFilter, sort: sortFilter });
-    }
-  };
-
   useEffect(() => {
-    applyFilters();
-  }, [genreFilter, priceFilter, sortFilter]);
+    const filters = {
+      search: searchTerm,
+      genre: genreFilter,
+      price: priceFilter,
+      sort: sortFilter
+    };
+    console.log('Navbar envoie filtres:', filters);
+    if (onFilterChange) {
+      onFilterChange(filters);
+    }
+  }, [searchTerm, genreFilter, priceFilter, sortFilter]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userRole');
     localStorage.removeItem('userEmail');
-    setIsAdmin(false);
+    setIsAuthenticated(false);
+    setUserRole('');
+    window.dispatchEvent(new Event('storage'));
     navigate('/');
   };
 
@@ -83,16 +93,18 @@ const Navbar = ({ onSearch }) => {
 
         <div className="collapse navbar-collapse" id="navbarContent">
           <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center w-100">
+            {/* Barre de recherche */}
             <div className="me-lg-3 mb-2 mb-lg-0">
               <input
                 type="search"
                 className="form-control"
                 placeholder="Rechercher un jeu..."
                 value={searchTerm}
-                onChange={handleSearch}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
+            {/* Filtres */}
             <div className="d-flex flex-wrap gap-2 mb-2 mb-lg-0">
               <select
                 className="form-select form-select-sm"
@@ -137,11 +149,11 @@ const Navbar = ({ onSearch }) => {
               </select>
             </div>
 
+            {/* Boutons droite */}
             <div className="ms-lg-auto d-flex align-items-center gap-2">
               <button
                 className="btn btn-outline-light btn-sm"
                 onClick={toggleDarkMode}
-                title={darkMode ? 'Mode clair' : 'Mode sombre'}
               >
                 {darkMode ? '☀️' : '🌙'}
               </button>
@@ -155,18 +167,20 @@ const Navbar = ({ onSearch }) => {
                 )}
               </Link>
 
-              {isAdmin ? (
+              {isAuthenticated ? (
                 <>
-                  <Link to="/game/new" className="btn btn-primary btn-sm">
-                    + Ajouter
-                  </Link>
+                  {userRole === 'admin' && (
+                    <Link to="/game/new" className="btn btn-primary btn-sm">
+                      + Ajouter
+                    </Link>
+                  )}
                   <button onClick={handleLogout} className="btn btn-outline-danger btn-sm">
                     Déconnexion
                   </button>
                 </>
               ) : (
                 <Link to="/login" className="btn btn-outline-light btn-sm">
-                  🔐 Log
+                  🔐 Login
                 </Link>
               )}
             </div>

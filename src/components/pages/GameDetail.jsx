@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import Price from '../Price';
 
 const GameDetail = () => {
   const { id } = useParams();
@@ -125,8 +126,9 @@ const GameDetail = () => {
               <div className="mb-4">
                 <h5 className="text-muted mb-2">Prix :</h5>
                 <div className="display-4 fw-bold text-success">
-                  ${typeof game.price === 'number' ? game.price.toFixed(2) : game.price || '0.00'}
+                  <Price price={game.price} />
                 </div>
+                <small className="text-muted">Prix converti selon votre localisation</small>
               </div>
 
               <div className="mb-4">

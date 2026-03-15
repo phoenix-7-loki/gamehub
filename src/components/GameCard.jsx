@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Price from './Price';
 
 const GameCard = ({ game, onAddToCart }) => {
   const handleAddToCart = (e) => {
@@ -9,8 +10,6 @@ const GameCard = ({ game, onAddToCart }) => {
       onAddToCart(game);
     }
   };
-
-  const isAdmin = localStorage.getItem('userRole') === 'admin';
 
   return (
     <div className="col">
@@ -31,9 +30,7 @@ const GameCard = ({ game, onAddToCart }) => {
           <div className="d-flex justify-content-between align-items-center mt-auto">
             <div>
               <span className="badge bg-primary me-2">{game.genre || 'Non spécifié'}</span>
-              <span className="badge bg-success">
-                ${typeof game.price === 'number' ? game.price.toFixed(2) : '0.00'}
-              </span>
+              <Price price={game.price} />
             </div>
 
             <div className="d-flex gap-1">
