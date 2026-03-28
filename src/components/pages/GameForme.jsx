@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const GameForme = () => {
   const { id } = useParams();
@@ -9,6 +10,7 @@ const GameForme = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const [donneeDuJeu, setdonneeDuJeu] = useState({
+    id: '',
     title: '',
     description: '',
     price: '',
@@ -23,6 +25,7 @@ const GameForme = () => {
         .then(res => res.json())
         .then(data => {
           setdonneeDuJeu({
+            id: data.id || '',
             title: data.title || '',
             description: data.description || '',
             price: data.price || '',
@@ -31,6 +34,11 @@ const GameForme = () => {
           });
         })
         .catch(err => console.error('Erreur chargement jeu:', err));
+    } else {
+      setdonneeDuJeu(prev => ({
+        ...prev,
+        id: uuidv4()
+      }));
     }
   }, [id]);
 
@@ -73,6 +81,7 @@ const GameForme = () => {
     }
 
     const lEnvoi = {
+      id: donneeDuJeu.id || uuidv4(),
       title: donneeDuJeu.title.trim(),
       description: donneeDuJeu.description.trim(),
       price: parseFloat(donneeDuJeu.price) || 0,
@@ -96,8 +105,7 @@ const GameForme = () => {
       if (response.ok) {
         setSubmitSuccess(true);
         setTimeout(() => {
-          const result = response.json();
-          navigate(`/game-detail/${isEditMode ? id : result.id}`);
+          navigate(`/game-detail/${lEnvoi.id}`);
         }, 1500);
       } else {
         setErrors({ submit: 'Erreur serveur lors de l\'enregistrement' });
@@ -146,6 +154,23 @@ const GameForme = () => {
           <div className="card shadow-lg border-0">
             <div className="card-body p-4">
               <form onSubmit={handleSubmit} noValidate>
+                {}
+                <div className="mb-4">
+                  <label htmlFor="id" className="form-label fw-bold">
+                    ID unique (UUID)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control bg-light"
+                    id="id"
+                    name="id"
+                    value={donneeDuJeu.id}
+                    readOnly
+                    disabled
+                  />
+                  <div className="form-text">Identifiant unique du jeu (généré automatiquement)</div>
+                </div>
+
                 <div className="mb-4">
                   <label htmlFor="title" className="form-label fw-bold">
                     Nom du Jeu *
@@ -303,6 +328,7 @@ const GameForme = () => {
                       className="btn btn-outline-danger me-2"
                       onClick={() => {
                         setdonneeDuJeu({
+                          id: uuidv4(),
                           title: '',
                           description: '',
                           price: '',
