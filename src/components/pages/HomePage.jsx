@@ -1,53 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import GamesGrid from './GamesGrid';
+import React from 'react';
+import { useGames } from '../../hooks/useGames';
+import GameCard from '../GameCard';
 import GameSlider from '../GameSlider';
 
-const HomePage = ({ filters }) => {
-  const [featuredGames, setFeaturedGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('http://localhost:3001/games')
-      .then(res => res.json())
-      .then(data => {
-        const cleanedGames = data.slice(0, 5).map(game => ({
-          id: game.id,
-          title: game.title || 'Titre inconnu',
-          description: game.description || 'Description non disponible',
-          price: parseFloat(game.price) || 0,
-          genre: game.genre || 'Non spécifié',
-          img: game.img || 'https://via.placeholder.com/1200x500'
-        }));
-        setFeaturedGames(cleanedGames);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Erreur chargement slider:', err);
-        setLoading(false);
-      });
-  }, []);
-
+const HomePage = () => {
+  const { data: games = [], isLoading } = useGames();
+  const featured = games.slice(0, 5);
+  if (isLoading) return <div>Chargement...</div>;
   return (
     <>
-      {}
-      {!loading && featuredGames.length > 0 && (
-        <GameSlider games={featuredGames} />
-      )}
-
-      {}
-      <section className="py-5 text-center bg-light">
-        <div className="container">
-          <h1 className="display-4">GameHub</h1>
-          <p className="lead text-muted">
-            Découvrez notre collection de jeux incroyables !
-          </p>
+      <GameSlider games={featured} />
+      <div className="container py-4">
+        <div className="row row-cols-1 row-cols-md-4 g-4">
+          {games.map(game => <GameCard key={game.id} game={game} />)}
         </div>
-      </section>
-
-      {}
-      <GamesGrid filters={filters} />
+      </div>
     </>
   );
 };
-
 export default HomePage;

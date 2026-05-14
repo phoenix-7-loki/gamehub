@@ -96,5 +96,14 @@
       "genre": "Horreur",
       "img": "https://image.api.playstation.com/cdn/UP0102/CUSA00924_00/gri8C5T2j5pLUw4e9szA9npjaswoCsKI.png"
     }
-  ]
+  ],
+  "users": [
+    {"id": "UUID1", "email": "admin@gamehub.ma", "pswd": "admin", "role": "admin"},
+    {"id": "UUID2", "email": "client@gamehub.ma", "pswd": "client", "role": "user"},
+    {"id": "UUID3", "email": "client2@gamehub.ma", "pswd": "client2", "role": "user"}
+  ],
+  "commandes": [
+    {"reference": "UUID1", "date": "2026-03-29", "total": 100, "games": ["a42e", "11"], "status":"draft", "userId": "UUID2"},
+    {"reference": "UUID2", "date": "2026-03-01", "total": 100, "games": ["a42e", "11"], "status":"confirmed", "userId": "UUID2"}
+    ]
 }

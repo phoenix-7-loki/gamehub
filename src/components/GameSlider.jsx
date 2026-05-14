@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Price from './Price';
+import PriceDisplay from './PriceDisplay';
 
 const GameSlider = ({ games }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

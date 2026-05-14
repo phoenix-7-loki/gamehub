@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import Price from '../Price';
+import PriceDisplay from '../PriceDisplay';
 
 const GameDetail = () => {
   const { id } = useParams();
