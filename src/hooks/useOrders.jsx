@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getOrders, getOrderById, createOrder, updateOrderStatus } from '../api';
-import { useUserStore } from '../store/useUserStore';
-import { useCartStore } from '../store/useCartStore';
+import  useUserStore  from '../store/useUserStore';
+import useCartStore from '../store/useCartStore';
 
 export const useOrders = () => {
   const { userEmail } = useUserStore();

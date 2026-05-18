@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getGames, getGameById, createGame, updateGame, deleteGame } from '../api';
-import { useCartStore } from '../store/useCartStore';
+import useCartStore from '../store/useCartStore';
 
 export const useGames = () => {
   return useQuery({
